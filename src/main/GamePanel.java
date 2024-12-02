@@ -1,3 +1,7 @@
+package main;
+
+import entity.Player;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,6 +18,10 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameTheard;
 
     int FPS = 60;
+
+    KeyHandler keyHandler= new KeyHandler();
+    Thread gameThread;
+    Player player = new Player(this,keyH);
 
     //    setplayer default pos
     int playerX = 100;
@@ -62,22 +70,12 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        if (keyH.upPressed == true) {
-            playerY -= playerSpeed;
-        } else if (keyH.downPressed == true) {
-            playerY += playerSpeed;
-        } else if (keyH.leftPressed == true) {
-            playerX -= playerSpeed;
-        } else if (keyH.rightPressed == true) {
-            playerX += playerSpeed;
-        }
+        player.update();
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(playerX, playerY, tileSize, tileSize);
-        g2d.dispose();
+        player.draw(g2d, tileSize);
     }
 }
